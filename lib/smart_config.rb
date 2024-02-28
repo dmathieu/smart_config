@@ -5,5 +5,6 @@
 #
 module SmartConfig; end
 
+require 'smart_config/values'
 require 'smart_config/config'
 require 'smart_config/version'

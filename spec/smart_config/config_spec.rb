@@ -3,37 +3,48 @@
 require 'spec_helper'
 
 describe SmartConfig::Config do
-  let(:k) do
-    Class.new do
-      extend SmartConfig::Config
-      config_path 'spec/fixtures/config.yaml'
+  describe '#config_path' do
+    describe 'with no config path specified' do
+      let(:k) do
+        Class.new do
+          extend SmartConfig::Config
 
-      value :foobar
-      value :hello
-    end
-  end
+          value :foobar
+        end
+      end
 
-  describe '#value' do
-    # We implicitly call #value in the class definition above
-    it 'can set a value' do
-      expect(k.keys).to eql(%i[foobar hello])
-    end
-  end
-
-  describe '#load!' do
-    it 'loads the data' do
-      expect(k.load!).to be true
+      it 'tries loading the default config path' do
+        expect do
+          k.foobar
+        end.to raise_error(Errno::ENOENT, 'No such file or directory @ rb_sysopen - config/config.yaml')
+      end
     end
 
-    it 'makes the data accessible' do
-      k.load!
-      expect(k.foobar).to eql('hello')
-    end
+    describe 'with a config path specified' do
+      let(:k) do
+        Class.new do
+          extend SmartConfig::Config
+          config_path 'spec/fixtures/config.yaml'
 
-    it 'falls back to the environment variable value' do
-      with_environment('HELLO' => 'WORLD') do
-        k.load!
-        expect(k.hello).to eql('WORLD')
+          value :foobar
+          value :hello
+        end
+      end
+
+      it 'only loads the data once' do
+        expect do
+          k.config_path '/foo/bar'
+        end.not_to change(k, :foobar)
+      end
+
+      it 'loads the data' do
+        expect(k.foobar).to eql('hello')
+      end
+
+      it 'falls back to environment variables' do
+        with_environment({ 'HELLO' => 'world' }) do
+          expect(k.hello).to eql('world')
+        end
       end
     end
   end

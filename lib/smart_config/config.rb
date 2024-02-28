@@ -8,51 +8,25 @@ module SmartConfig
   # to environment variables
   #
   module Config
-    @@config = {} # rubocop:disable Style/ClassVars
-
-    def value(name)
-      @@config[name.to_sym] = {}
-    end
-
-    def keys
-      @@config.keys
-    end
+    include Values
 
     def config_path(path)
-      @@config_path = path # rubocop:disable Style/ClassVars
-    end
-
-    def load!
-      !@@data.nil?
-    rescue NameError
-      @@data = YAML.load_file(config_file_path) # rubocop:disable Style/ClassVars
-      !@@data.nil?
-    end
-
-    def method_missing(name, *args, &)
-      return get_value(name) if keys.include?(name)
-
-      super
-    end
-
-    def respond_to_missing?(name, include_private = false)
-      keys.include?(name)
-      super
+      @config_path = path
     end
 
     private
 
     def config_file_path
-      @@config_path
-    rescue NameError
-      'config/config.yaml'
+      return 'config/config.yaml' if @config_path.nil?
+
+      @config_path
     end
 
-    def get_value(name)
-      name = name.to_s
-      return @@data[name] if @@data.key?(name)
-
-      ENV.fetch(name.upcase, nil)
+    def data
+      @data ||= [
+        YAML.load_file(config_file_path),
+        ENV.to_h.transform_keys(&:downcase)
+      ]
     end
   end
 end
