@@ -9,9 +9,10 @@ module SmartConfig
   class Group
     include SmartConfig::Values
 
-    def initialize(name, parent, &block)
-      @name, @parent = name, parent
-      instance_exec &block
+    def initialize(name, parent, &)
+      @name = name
+      @parent = parent
+      instance_exec(&)
     end
 
     private

@@ -3,6 +3,9 @@
 require 'bundler/setup'
 Bundler.setup
 
+require 'simplecov'
+SimpleCov.start
+
 require 'smart_config'
 Dir[File.join(Dir.pwd, 'spec/support/**/*.rb')].each { |f| require f }
 

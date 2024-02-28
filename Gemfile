@@ -10,3 +10,7 @@ gem 'rubocop'
 gem 'rubocop-performance'
 gem 'rubocop-rake'
 gem 'rubocop-rspec'
+
+group :test do
+  gem 'simplecov', require: false
+end

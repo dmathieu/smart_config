@@ -64,4 +64,14 @@ describe SmartConfig::Values do
       end.to raise_error(NoMethodError)
     end
   end
+
+  describe '#respond_to_missing?' do
+    it 'knows the method' do
+      expect(k.send(:respond_to_missing?, :foobar)).to be true
+    end
+
+    it 'does not know the method' do
+      expect(k.send(:respond_to_missing?, :nonexistent)).to be false
+    end
+  end
 end

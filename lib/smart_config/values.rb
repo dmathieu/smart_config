@@ -12,9 +12,9 @@ module SmartConfig
       @config[name.to_sym] = {}
     end
 
-    def group(name, &block)
+    def group(name, &)
       @config ||= {}
-      @config[name.to_sym] = SmartConfig::Group.new(name, self, &block)
+      @config[name.to_sym] = SmartConfig::Group.new(name, self, &)
     end
 
     def keys
@@ -28,7 +28,8 @@ module SmartConfig
     end
 
     def respond_to_missing?(name, include_private = false)
-      keys.include?(name)
+      return true if keys.include?(name)
+
       super
     end
 
@@ -37,15 +38,15 @@ module SmartConfig
 
       case @config[name]
       when SmartConfig::Group
-        return @config[name]
+        @config[name]
       else
-        return path.first
+        path.first
       end
     end
 
     def get_path(name)
       name = name.to_s
-      data.map{|a| a[name] }.compact
+      data.map { |a| a[name] }.compact
     end
 
     private
