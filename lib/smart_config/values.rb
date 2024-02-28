@@ -12,6 +12,11 @@ module SmartConfig
       @config[name.to_sym] = {}
     end
 
+    def group(name, &block)
+      @config ||= {}
+      @config[name.to_sym] = SmartConfig::Group.new(name, self, &block)
+    end
+
     def keys
       @config.keys
     end
@@ -28,13 +33,19 @@ module SmartConfig
     end
 
     def get_value(name)
-      name = name.to_s
+      path = get_path(name)
 
-      data.each do |a|
-        return a[name] if a.key?(name)
+      case @config[name]
+      when SmartConfig::Group
+        return @config[name]
+      else
+        return path.first
       end
+    end
 
-      nil
+    def get_path(name)
+      name = name.to_s
+      data.map{|a| a[name] }.compact
     end
 
     private
