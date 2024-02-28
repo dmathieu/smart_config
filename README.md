@@ -19,7 +19,7 @@ gem 'smart_gem'
 
 Then, create a new config class that, and define the configuration you need:
 
-```
+```ruby
 class Config
 	extend SmartConfig::Config
 

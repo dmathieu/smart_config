@@ -18,6 +18,7 @@ describe SmartConfig::Values do
         end
       end
 
+      # rubocop:disable Metrics/MethodLength
       def self.data
         [
           {
@@ -32,6 +33,7 @@ describe SmartConfig::Values do
           { 'hello' => 'world' }
         ]
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 

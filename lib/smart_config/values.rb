@@ -46,7 +46,7 @@ module SmartConfig
 
     def get_path(name)
       name = name.to_s
-      data.map { |a| a[name] }.compact
+      data.filter_map { |a| a[name] }
     end
 
     private
