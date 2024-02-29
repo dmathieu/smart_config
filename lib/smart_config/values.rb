@@ -46,7 +46,14 @@ module SmartConfig
 
     def get_path(name)
       name = name.to_s
-      data.filter_map { |a| a[name] }
+      data.filter_map do |a|
+        next a[name] if a.key?(name)
+
+        fd = a
+          .select { |e| e.start_with? "#{name}_" }
+          .transform_keys { |k| k.delete_prefix("#{name}_") }
+        fd unless fd.empty?
+      end
     end
 
     private

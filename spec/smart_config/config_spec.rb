@@ -28,6 +28,11 @@ describe SmartConfig::Config do
 
           value :foobar
           value :hello
+
+          group :subgroup do
+            value :foobar
+            value :env
+          end
         end
       end
 
@@ -41,9 +46,19 @@ describe SmartConfig::Config do
         expect(k.foobar).to eql('hello')
       end
 
+      it 'loads the data from a subgroup' do
+        expect(k.subgroup.foobar).to eql('world')
+      end
+
       it 'falls back to environment variables' do
         with_environment({ 'HELLO' => 'world' }) do
           expect(k.hello).to eql('world')
+        end
+      end
+
+      it 'falls back to environment variables for subgroups' do
+        with_environment({ 'SUBGROUP_ENV' => 'in a subgroup' }) do
+          expect(k.subgroup.env).to eql('in a subgroup')
         end
       end
     end
