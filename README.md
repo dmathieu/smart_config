@@ -54,4 +54,16 @@ Then, within your application, you can call:
 Config.redis.connection.hostname
 ```
 
-To access the configuration value.
+To access the configuration value, from the following YAML file for example:
+
+```yaml
+redis:
+	connection:
+		hostname: 'localhost'
+```
+
+For values that are not  in the YAML config, the tool will try reading it from environment variables, such as (from the previous configuration):
+
+```
+REDIS_CONNECTION_PASSWORD
+```
