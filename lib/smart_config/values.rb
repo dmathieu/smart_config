@@ -50,8 +50,8 @@ module SmartConfig
         next a[name] if a.key?(name)
 
         fd = a
-             .select { |e| e.start_with? "#{name}_" }
-             .transform_keys { |k| k.delete_prefix("#{name}_") }
+          .select { |e| e.start_with? "#{name}_" }
+          .transform_keys { |k| k.delete_prefix("#{name}_") }
         fd unless fd.empty?
       end
     end
