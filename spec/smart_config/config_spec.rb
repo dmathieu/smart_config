@@ -14,9 +14,7 @@ describe SmartConfig::Config do
       end
 
       it 'tries loading the default config path' do
-        expect do
-          k.foobar
-        end.to raise_error(Errno::ENOENT, 'No such file or directory @ rb_sysopen - config/config.yaml')
+        expect(k.foobar).to be_nil
       end
     end
 

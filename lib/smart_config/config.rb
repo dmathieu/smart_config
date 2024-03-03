@@ -23,10 +23,10 @@ module SmartConfig
     end
 
     def data
-      @data ||= [
-        YAML.load_file(config_file_path),
+      @data ||= SmartConfig::Data.new([
+        config_file_path,
         ENV.to_h.transform_keys(&:downcase)
-      ]
+      ]).data
     end
   end
 end
