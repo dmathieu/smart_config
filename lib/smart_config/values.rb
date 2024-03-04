@@ -9,9 +9,9 @@ module SmartConfig
   module Values
     attr_reader :namespace
 
-    def value(name)
+    def value(name, *opts)
       @config ||= {}
-      @config[name.to_sym] = {}
+      @config[name.to_sym] = opts.reduce({}, :merge)
     end
 
     def group(name, &)
@@ -38,12 +38,12 @@ module SmartConfig
     def get_value(name)
       path = walker.walk([namespace, name.to_s].compact.flatten.join('.'))
 
-      case @config[name]
-      when SmartConfig::Group
-        @config[name]
-      else
-        path.first
-      end
+      return @config[name] if @config[name].is_a?(SmartConfig::Group)
+
+      value = path.first || @config[name][:default]
+      return value unless value.nil?
+
+      raise SmartConfig::MissingConfigValue, name
     end
 
     private

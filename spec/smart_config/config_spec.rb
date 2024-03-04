@@ -14,7 +14,9 @@ describe SmartConfig::Config do
       end
 
       it 'tries loading the default config path' do
-        expect(k.foobar).to be_nil
+        expect do
+          k.foobar
+        end.to raise_error(SmartConfig::MissingConfigValue)
       end
     end
 

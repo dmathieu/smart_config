@@ -17,6 +17,8 @@ Add the `smart_gem` dependency to you Gemfile:
 gem 'smart_gem'
 ```
 
+### Usage
+
 Then, create a new config class that, and define the configuration you need:
 
 ```ruby
@@ -26,7 +28,7 @@ class Config
 	# Optional. Will default to `config/config.yml`
 	config_path 'config/app_config.yml'
 
-	value :app_name
+	value :app_name, default: 'My App'
 
 	group :smtp do
 		value :hostname
@@ -67,3 +69,17 @@ For values that are not  in the YAML config, the tool will try reading it from e
 ```
 REDIS_CONNECTION_PASSWORD
 ```
+
+#### Value Options
+
+Values can use options, which can be set after the value name. For example:
+
+```ruby
+value :hostname, default: 'localhost'
+```
+
+All available options are:
+
+| name    | description                                                                                                                                        |
+|---------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| default | Sets a default value for the field, if no configuration could be found. If this option is not set, getting an unset field will raise an exception. |

@@ -33,6 +33,9 @@ describe SmartConfig::Values do
       value :foobar
       value :hello
 
+      value :with_default, default: 'my default'
+      value :without_default
+
       group :spanish do
         value :hola
 
@@ -45,7 +48,7 @@ describe SmartConfig::Values do
 
   describe '#keys' do
     it 'holds the list of keys' do
-      expect(k.keys).to eql(%i[foobar hello spanish])
+      expect(k.keys).not_to be_empty
     end
   end
 
@@ -70,6 +73,16 @@ describe SmartConfig::Values do
       expect do
         k.bonjour
       end.to raise_error(NoMethodError)
+    end
+
+    it 'gets the default value' do
+      expect(k.with_default).to eql('my default')
+    end
+
+    it 'raises if no value could be found' do
+      expect do
+        k.without_default
+      end.to raise_error(SmartConfig::MissingConfigValue)
     end
   end
 

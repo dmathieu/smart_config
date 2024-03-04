@@ -3,7 +3,9 @@
 #
 # The main SmartConfig module. See documentation for the sub modules.
 #
-module SmartConfig; end
+module SmartConfig
+  class MissingConfigValue < StandardError; end
+end
 
 require 'smart_config/walker'
 require 'smart_config/values'
