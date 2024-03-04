@@ -60,8 +60,8 @@ To access the configuration value, from the following YAML file for example:
 
 ```yaml
 redis:
-	connection:
-		hostname: 'localhost'
+  connection:
+    hostname: 'localhost'
 ```
 
 For values that are not  in the YAML config, the tool will try reading it from environment variables, such as (from the previous configuration):
