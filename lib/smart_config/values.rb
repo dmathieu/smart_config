@@ -38,11 +38,11 @@ module SmartConfig
     def get_value(name)
       return @config[name] if @config[name].is_a?(SmartConfig::Group)
 
-      path = walker.walk([namespace, name.to_s].compact.flatten.join('.'))
+      path = walker.walk(full_name(name))
       return path.first unless path.first.nil?
       return @config[name][:default] if @config[name].key?(:default)
 
-      raise SmartConfig::MissingConfigValue, name
+      raise SmartConfig::MissingConfigValue, full_name(name)
     end
 
     private
@@ -50,6 +50,10 @@ module SmartConfig
     # Getting the data through a walker needs to be implemented by a lateral module
     def walker
       raise NotImplementedError
+    end
+
+    def full_name(name)
+      [namespace, name.to_s].compact.flatten.join('.')
     end
   end
 end
