@@ -5,7 +5,30 @@ require 'spec_helper'
 describe SmartConfig::Values do
   let(:k) do
     Class.new do
-      extend SmartConfig::Values
+      # rubocop:disable Metrics/MethodLength
+      def self.data
+        [
+          {
+            data: {
+              'foobar' => 'hello',
+              'spanish' => {
+                'hola' => 'mundo',
+                'location' => {
+                  'latitude' => '40.4637'
+                }
+              }
+            },
+            strategy: :nested
+          },
+          {
+            data: { 'hello' => 'world' },
+            strategy: :flat
+          }
+        ]
+      end
+      # rubocop:enable Metrics/MethodLength
+
+      extend SmartConfig::Spec::DataWalker
 
       value :foobar
       value :hello
@@ -17,23 +40,6 @@ describe SmartConfig::Values do
           value :latitude
         end
       end
-
-      # rubocop:disable Metrics/MethodLength
-      def self.data
-        [
-          {
-            'foobar' => 'hello',
-            'spanish' => {
-              'hola' => 'mundo',
-              'location' => {
-                'latitude' => '40.4637'
-              }
-            }
-          },
-          { 'hello' => 'world' }
-        ]
-      end
-      # rubocop:enable Metrics/MethodLength
     end
   end
 

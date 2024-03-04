@@ -21,3 +21,6 @@ Layout/MultilineMethodCallIndentation:
 
 Layout/FirstArrayElementIndentation:
   EnforcedStyle: consistent
+
+RSpec/MultipleExpectations:
+  Max: 5

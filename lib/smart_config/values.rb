@@ -7,6 +7,8 @@ module SmartConfig
   # Handles the retrieval of values, but with already provided data.
   #
   module Values
+    attr_reader :namespace
+
     def value(name)
       @config ||= {}
       @config[name.to_sym] = {}
@@ -14,7 +16,7 @@ module SmartConfig
 
     def group(name, &)
       @config ||= {}
-      @config[name.to_sym] = SmartConfig::Group.new(name, self, &)
+      @config[name.to_sym] = SmartConfig::Group.new([namespace, name].compact.flatten, walker, &)
     end
 
     def keys
@@ -34,7 +36,7 @@ module SmartConfig
     end
 
     def get_value(name)
-      path = get_path(name)
+      path = walker.walk([namespace, name.to_s].compact.flatten.join('.'))
 
       case @config[name]
       when SmartConfig::Group
@@ -44,22 +46,10 @@ module SmartConfig
       end
     end
 
-    def get_path(name)
-      name = name.to_s
-      data.filter_map do |a|
-        next a[name] if a.key?(name)
-
-        fd = a
-          .select { |e| e.start_with? "#{name}_" }
-          .transform_keys { |k| k.delete_prefix("#{name}_") }
-        fd unless fd.empty?
-      end
-    end
-
     private
 
-    # Getting the data needs to be implemented by a lateral module
-    def data
+    # Getting the data through a walker needs to be implemented by a lateral module
+    def walker
       raise NotImplementedError
     end
   end

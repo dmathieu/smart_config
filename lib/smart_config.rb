@@ -5,7 +5,7 @@
 #
 module SmartConfig; end
 
-require 'smart_config/data'
+require 'smart_config/walker'
 require 'smart_config/values'
 require 'smart_config/group'
 require 'smart_config/config'

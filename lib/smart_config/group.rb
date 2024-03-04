@@ -9,16 +9,14 @@ module SmartConfig
   class Group
     include SmartConfig::Values
 
-    def initialize(name, parent, &)
-      @name = name
-      @parent = parent
+    def initialize(namespace, walker, &)
+      @namespace = namespace
+      @walker = walker
       instance_exec(&)
     end
 
     private
 
-    def data
-      @data ||= @parent.get_path(@name)
-    end
+    attr_reader :walker
   end
 end

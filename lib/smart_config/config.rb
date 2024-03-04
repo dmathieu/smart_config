@@ -22,11 +22,17 @@ module SmartConfig
       @config_path
     end
 
-    def data
-      @data ||= SmartConfig::Data.new([
-        config_file_path,
-        ENV.to_h.transform_keys(&:downcase)
-      ]).data
+    def walker
+      @walker ||= SmartConfig::Walker.new([
+        {
+          data: config_file_path,
+          strategy: :nested
+        },
+        {
+          data: ENV.to_h.transform_keys(&:downcase),
+          strategy: :flat
+        }
+      ])
     end
   end
 end
