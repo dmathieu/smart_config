@@ -36,12 +36,11 @@ module SmartConfig
     end
 
     def get_value(name)
-      path = walker.walk([namespace, name.to_s].compact.flatten.join('.'))
-
       return @config[name] if @config[name].is_a?(SmartConfig::Group)
 
-      value = path.first || @config[name][:default]
-      return value unless value.nil?
+      path = walker.walk([namespace, name.to_s].compact.flatten.join('.'))
+      return path.first unless path.first.nil?
+      return @config[name][:default] if @config[name].key?(:default)
 
       raise SmartConfig::MissingConfigValue, name
     end

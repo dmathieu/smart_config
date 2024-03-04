@@ -34,6 +34,7 @@ describe SmartConfig::Values do
       value :hello
 
       value :with_default, default: 'my default'
+      value :with_nil_default, default: nil
       value :without_default
 
       group :spanish do
@@ -77,6 +78,10 @@ describe SmartConfig::Values do
 
     it 'gets the default value' do
       expect(k.with_default).to eql('my default')
+    end
+
+    it 'gets the default value when it is nil' do
+      expect(k.with_nil_default).to be_nil
     end
 
     it 'raises if no value could be found' do

@@ -24,3 +24,6 @@ Layout/FirstArrayElementIndentation:
 
 RSpec/MultipleExpectations:
   Max: 5
+
+Metrics/AbcSize:
+  Enabled: false
