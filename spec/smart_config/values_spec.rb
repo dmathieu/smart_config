@@ -16,7 +16,8 @@ describe SmartConfig::Values do
                 'location' => {
                   'latitude' => '40.4637'
                 }
-              }
+              },
+              'with_formatter' => '42'
             },
             strategy: :nested
           },
@@ -36,6 +37,8 @@ describe SmartConfig::Values do
       value :with_default, default: 'my default'
       value :with_nil_default, default: nil
       value :without_default
+
+      value :with_formatter, formatter: :integer
 
       group :spanish do
         value :hola
@@ -88,6 +91,10 @@ describe SmartConfig::Values do
       expect do
         k.without_default
       end.to raise_error(SmartConfig::MissingConfigValue)
+    end
+
+    it 'gets a formatted value' do
+      expect(k.with_formatter).to be(42)
     end
   end
 

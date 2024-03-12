@@ -7,6 +7,7 @@ module SmartConfig
   class MissingConfigValue < StandardError; end
 end
 
+require 'smart_config/formatters'
 require 'smart_config/walker'
 require 'smart_config/values'
 require 'smart_config/group'

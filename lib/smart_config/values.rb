@@ -16,7 +16,8 @@ module SmartConfig
 
     def group(name, &)
       @config ||= {}
-      @config[name.to_sym] = SmartConfig::Group.new([namespace, name].compact.flatten, walker, &)
+      @config[name.to_sym] ||= {}
+      @config[name.to_sym][:group] = SmartConfig::Group.new([namespace, name].compact.flatten, walker, &)
     end
 
     def keys
@@ -24,7 +25,7 @@ module SmartConfig
     end
 
     def method_missing(name, *args, &)
-      return get_value(name) if keys.include?(name)
+      return format_value(name, get_value(name)) if keys.include?(name)
 
       super
     end
@@ -36,13 +37,20 @@ module SmartConfig
     end
 
     def get_value(name)
-      return @config[name] if @config[name].is_a?(SmartConfig::Group)
+      return @config[name][:group] if @config[name].key?(:group)
 
       path = walker.walk(full_name(name))
       return path.first unless path.first.nil?
       return @config[name][:default] if @config[name].key?(:default)
 
       raise SmartConfig::MissingConfigValue, full_name(name)
+    end
+
+    def format_value(name, value)
+      @formatters ||= {}
+
+      @formatters[name] ||= SmartConfig::Formatters.find(@config[name].fetch(:formatter, :string))
+      @formatters[name].format(value)
     end
 
     private
