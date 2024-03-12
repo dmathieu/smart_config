@@ -94,7 +94,7 @@ describe SmartConfig::Values do
     end
 
     it 'gets a formatted value' do
-      expect(k.with_formatter).to eql(42)
+      expect(k.with_formatter).to be(42)
     end
   end
 

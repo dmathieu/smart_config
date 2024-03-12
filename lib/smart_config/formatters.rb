@@ -10,8 +10,6 @@ module SmartConfig
       SmartConfig::Formatters.const_get(camelize(format))
     end
 
-    private
-
     def self.camelize(format)
       format.to_s.split('_').collect(&:capitalize).join
     end

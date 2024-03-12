@@ -7,6 +7,7 @@ module SmartConfig
     class Integer
       def self.format(value)
         return nil if value.nil?
+
         value.to_i
       end
     end
