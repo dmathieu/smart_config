@@ -49,7 +49,7 @@ module SmartConfig
     def format_value(name, value)
       @formatters ||= {}
 
-      @formatters[name] ||= SmartConfig::Formatters.find(@config[name].fetch(:formatter, :string))
+      @formatters[name] ||= SmartConfig::Formatters.find(@config[name].fetch(:format, :string))
       @formatters[name].format(value)
     end
 

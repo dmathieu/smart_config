@@ -38,7 +38,7 @@ describe SmartConfig::Values do
       value :with_nil_default, default: nil
       value :without_default
 
-      value :with_formatter, formatter: :integer
+      value :with_formatter, format: :integer
 
       group :spanish do
         value :hola

@@ -32,7 +32,7 @@ class Config
 
 	group :smtp do
 		value :hostname
-		value :port, formatter: :integer
+		value :port, format: :integer
 		value :username
 		value :password
 	end
@@ -83,4 +83,4 @@ All available options are:
 | name      | description                                                                                                                                        |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | default   | Sets a default value for the field, if no configuration could be found. If this option is not set, getting an unset field will raise an exception. |
-| formatter | Sets the formatter that will be used for this field. If this option is not set, the field will be formatted as string.                             |
+| format    | Sets the format of the field. If this option is not set, the field will be formatted as string.                                                    |
