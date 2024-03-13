@@ -18,3 +18,5 @@ end
 
 require 'smart_config/formatters/string'
 require 'smart_config/formatters/integer'
+require 'smart_config/formatters/float'
+require 'smart_config/formatters/boolean'
