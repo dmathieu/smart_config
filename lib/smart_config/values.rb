@@ -17,7 +17,7 @@ module SmartConfig
     def group(name, &)
       @config ||= {}
       @config[name.to_sym] ||= {}
-      @config[name.to_sym][:group] = SmartConfig::Group.new([namespace, name].compact.flatten, walker, &)
+      @config[name.to_sym][:group] = SmartConfig::Group.new([namespace, name].compact.flatten, method(:walker), &)
     end
 
     def keys

@@ -9,14 +9,16 @@ module SmartConfig
   class Group
     include SmartConfig::Values
 
-    def initialize(namespace, walker, &)
+    def initialize(namespace, walker_fn, &)
       @namespace = namespace
-      @walker = walker
+      @walker_fn = walker_fn
       instance_exec(&)
     end
 
     private
 
-    attr_reader :walker
+    def walker
+      @walker ||= @walker_fn.call
+    end
   end
 end
