@@ -6,15 +6,15 @@ We have "smart" toothbrushes these days, so why not smart configuration?
 
 ## Usage
 
-Smart Config allows you to define a static configuration and access it from anywhere within your application.  
+Smart Config allows you to define a static configuration and access it from anywhere within your application.
 It will try to read the configuration from a YAML file, and fallback on environment variables.
 
 ### Installation
 
-Add the `smart_gem` dependency to you Gemfile:
+Add the `smart_config` dependency to you Gemfile:
 
 ```
-gem 'smart_gem'
+gem 'smart_config'
 ```
 
 ### Usage
