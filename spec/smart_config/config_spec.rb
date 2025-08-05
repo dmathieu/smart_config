@@ -24,6 +24,7 @@ describe SmartConfig::Config do
       let(:k) do
         Class.new do
           extend SmartConfig::Config
+
           config_path 'spec/fixtures/config.yaml'
 
           value :foobar
